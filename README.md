@@ -243,4 +243,4 @@ The AI is given a **system prompt** that instructs it to behave like a senior de
 Built with ❤️ using React, Node.js, and Google Gemini AI.
 
 ## 🚀 Live Demo
-👉 ai-code-review-system-livid.vercel.app
+👉 [Click here to view the live app](https://ai-code-review-system-livid.vercel.app)
