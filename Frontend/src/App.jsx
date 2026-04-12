@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import "prismjs/themes/prism-tomorrow.css";
 import Editor from "react-simple-code-editor";
-import prism from "prismjs";
-import "prismjs/components/prism-python";
-import "prismjs/components/prism-java";
-import "prismjs/components/prism-cpp";
-import "prismjs/components/prism-c";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 import axios from "axios";
 import "./App.css";
+import Prism from "prismjs";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-c";
 
 const languages = [
   { label: "JavaScript", value: "javascript" },
@@ -25,10 +25,6 @@ function App() {
   const [review, setReview] = useState(``);
   const [language, setLanguage] = useState("javascript");
 
-  useEffect(() => {
-    prism.highlightAll();
-  }, []);
-
   async function reviewCode() {
     const response = await axios.post("https://code-review-backend-iyev.onrender.com/ai/review", {
       code,
@@ -36,6 +32,11 @@ function App() {
     });
     setReview(response.data.review);
   }
+
+  const highlightCode = (code) => {
+    const grammar = Prism.languages[language] || Prism.languages.javascript;
+    return Prism.highlight(code, grammar, language);
+  };
 
   return (
     <>
@@ -56,13 +57,7 @@ function App() {
             <Editor
               value={code}
               onValueChange={(code) => setCode(code)}
-              highlight={(code) =>
-                prism.highlight(
-                  code,
-                  prism.languages[language] || prism.languages.javascript,
-                  language
-                )
-              }
+              highlight={highlightCode}
               padding={10}
               style={{
                 fontFamily: '"Fira Code", "Fira Mono", monospace',
