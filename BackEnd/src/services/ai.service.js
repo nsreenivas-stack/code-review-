@@ -33,7 +33,7 @@ const model = genAI.getGenerativeModel({
 });
 
 async function generateReview(prompt, language) {
-  const fullPrompt = `You are reviewing ${language.toUpperCase()} code. Review the following ${language} code and provide feedback strictly as a ${language} code reviewer:\n\n${prompt}`;
+  const fullPrompt = `IMPORTANT: You MUST review the following code strictly as ${language.toUpperCase()} code only. Do NOT suggest converting to another language. Do NOT assume it is any other language. The developer has explicitly selected ${language.toUpperCase()} as their language.\n\nReview this ${language} code:\n\n${prompt}`;
   const result = await model.generateContent(fullPrompt);
   console.log(result.response.text());
   return result.response.text();
